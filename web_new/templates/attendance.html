@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Điểm danh ngày {{ date }}</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: linear-gradient(135deg,#1e293b,#111827);
+    --card: #1e293b;
+    --accent: #06b6d4;
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+}
+.light-mode {
+    --bg: linear-gradient(135deg,#eaf2ff,#ffffff);
+    --card: #ffffff;
+    --accent: #2563eb;
+    --text: #111827;
+    --muted: #6b7280;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.page-title {
+    font-weight: 700;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.table-box {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+    overflow-x: auto;
+}
+
+.btn-lg {
+    font-size: 18px;
+    padding: 10px 30px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.btn-lg:hover {
+    opacity: 0.9;
+}
+
+#themeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99;
+}
+</style>
+</head>
+<body>
+
+<!-- Dark/Light Mode Toggle -->
+<button id="themeToggle" class="btn btn-light btn-sm">🌙 / ☀</button>
+
+<div class="container py-5">
+
+    <!-- Tiêu đề -->
+    <h1 class="page-title">📅 Điểm danh ngày {{ date }}</h1>
+
+    <!-- Bảng -->
+    <div class="table-box">
+        {{ table | safe }}
+    </div>
+
+    <!-- Nút -->
+    <div class="text-center mt-4">
+        <a href="/export/{{ date }}" class="btn btn-success btn-lg me-2">⬇ Tải Excel</a>
+        <a href="/" class="btn btn-secondary btn-lg">⬅ Quay lại</a>
+    </div>
+
+</div>
+
+<script>
+const body = document.documentElement;
+const btn = document.getElementById('themeToggle');
+if(localStorage.getItem('themeMode') === 'light') body.classList.add('light-mode');
+btn.addEventListener('click', ()=>{
+    if(body.classList.contains('light-mode')){
+        body.classList.remove('light-mode');
+        localStorage.setItem('themeMode','dark');
+    } else {
+        body.classList.add('light-mode');
+        localStorage.setItem('themeMode','light');
+    }
+});
+</script>
+
+</body>
+</html>

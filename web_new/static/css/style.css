@@ -1,0 +1,6 @@
+body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
+.card { border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.login-box { max-width: 400px; margin: 100px auto; }
+.table th { background-color: #4e73df; color: white; }
+.realtime-badge { animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }

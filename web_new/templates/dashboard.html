@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: linear-gradient(135deg,#1e293b,#111827);
+    --card: #1e293b;
+    --accent: #06b6d4;
+    --accent2: #facc15;
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+    --btn-bg: #06b6d4;
+}
+.light-mode {
+    --bg: linear-gradient(135deg,#eaf2ff,#ffffff);
+    --card: #ffffff;
+    --accent: #2563eb;
+    --accent2: #f59e0b;
+    --text: #111827;
+    --muted: #6b7280;
+    --btn-bg: #2563eb;
+}
+body {
+    margin:0;
+    font-family: 'Roboto', sans-serif;
+    min-height:100vh;
+    background: var(--bg);
+    color: var(--text);
+    transition: all 0.3s;
+}
+.dashboard-title {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.card-custom {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    padding: 20px;
+    color: var(--text);
+}
+.card-custom h4, .card-custom h2 { margin: 0; }
+.btn-lg-custom {
+    font-weight: 600;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+.btn-lg-custom:hover { opacity:0.9; }
+.list-group-item {
+    background: var(--card);
+    color: var(--text);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    backdrop-filter: blur(5px);
+}
+.logout-btn, #themeToggle {
+    position: fixed;
+    top: 20px;
+    z-index: 99;
+}
+.logout-btn { right: 20px; }
+#themeToggle { right: 120px; }
+a.btn { color: #fff; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- Dark/Light Mode Toggle -->
+<button id="themeToggle" class="btn btn-light btn-sm">🌙 / ☀</button>
+<a href="/logout" class="btn btn-danger logout-btn">Đăng xuất</a>
+
+<div class="container py-5">
+
+    <h1 class="dashboard-title">HỆ THỐNG ĐIỂM DANH THÔNG MINH</h1>
+
+    <div class="row g-4">
+
+        <!-- Thống kê hôm nay -->
+        <div class="col-md-4">
+            <div class="card-custom bg-success">
+                <h4>Hôm nay: {{ today }}</h4>
+                <h2 class="fw-bold mt-2">{{ present }} / {{ total }} có mặt</h2>
+            </div>
+        </div>
+
+        <!-- Realtime -->
+        <div class="col-md-4">
+            <a href="/realtime" class="btn btn-warning btn-lg w-100 btn-lg-custom">
+                🔵 Realtime điểm danh
+            </a>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="col-md-4">
+            <a href="/stats" class="btn btn-info btn-lg w-100 btn-lg-custom">
+                📊 Thống kê
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Camera -->
+    <div class="col-md-4 mt-4">
+        <a href="/camera" class="btn btn-danger btn-lg w-100 btn-lg-custom">
+            📷 Bật điểm danh khuôn mặt
+        </a>
+    </div>
+
+    <!-- Quản lý sinh viên -->
+    <h3 class="mt-5 mb-3">👨‍🎓 Quản lý hệ thống</h3>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <a href="/manage" class="btn btn-light btn-lg w-100 btn-lg-custom">
+                Quản lý sinh viên & Train AI
+            </a>
+        </div>
+    </div>
+
+    <!-- Lịch sử -->
+    <h3 class="mt-4 mb-3">📅 Lịch sử điểm danh</h3>
+    <ul class="list-group">
+        {% for date in dates %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div><strong>{{ date }}</strong></div>
+            <div>
+                <a href="/attendance/{{ date }}" class="btn btn-sm btn-primary">Xem</a>
+                <a href="/export/{{ date }}" class="btn btn-sm btn-success">Excel</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+<script>
+const body = document.documentElement;
+const btn = document.getElementById('themeToggle');
+if(localStorage.getItem('themeMode') === 'light') body.classList.add('light-mode');
+btn.addEventListener('click', ()=>{
+    if(body.classList.contains('light-mode')){
+        body.classList.remove('light-mode');
+        localStorage.setItem('themeMode','dark');
+    } else {
+        body.classList.add('light-mode');
+        localStorage.setItem('themeMode','light');
+    }
+});
+</script>
+
+</body>
+</html>

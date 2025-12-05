@@ -1,0 +1,10 @@
+opencv-python
+numpy
+insightface
+onnxruntime-directml
+flask
+flask-login
+pandas
+openpyxl
+pillow
+plotly
